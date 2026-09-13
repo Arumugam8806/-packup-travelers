@@ -1,0 +1,37 @@
+<footer class="pt-footer">
+  <div class="pt-container pt-footer__grid">
+    <div class="pt-footer__brand">
+      <img src="assets/logo.svg" alt="PackUp Travelers" class="pt-footer__logo" />
+      <h3>PackUp Travelers</h3>
+      <p>One ticket window for every journey — trains, buses and flights, packed up together.</p>
+    </div>
+
+    <div class="pt-footer__col">
+      <h4>Explore</h4>
+      <a routerLink="/search" [queryParams]="{mode:'TRAIN'}">Train Tickets</a>
+      <a routerLink="/search" [queryParams]="{mode:'BUS'}">Bus Tickets</a>
+      <a routerLink="/search" [queryParams]="{mode:'FLIGHT'}">Flight Tickets</a>
+    </div>
+
+    <div class="pt-footer__col">
+      <h4>Company</h4>
+      <a routerLink="/" fragment="why-us">Why PackUp</a>
+      <a routerLink="/">Help Center</a>
+      <a routerLink="/">Careers</a>
+    </div>
+
+    <div class="pt-footer__col">
+      <h4>Reach us</h4>
+      <p><img src="assets/icons/mail.svg" class="pt-icon-small" alt="" /> support&#64;packuptravelers.example</p>
+      <p><img src="assets/icons/phone.svg" class="pt-icon-small" alt="" /> +91 98765 43210</p>
+    </div>
+  </div>
+
+  <div class="pt-footer__rail" aria-hidden="true">
+    <div class="pt-footer__track"></div>
+  </div>
+
+  <div class="pt-footer__bottom">
+    <span>&copy; {{ year }} PackUp Travelers. All journeys reserved.</span>
+  </div>
+</footer>

@@ -1,0 +1,92 @@
+<section class="pt-section pt-confirm">
+  <div class="pt-container">
+
+    <div class="pt-loading" *ngIf="loading">
+      <img src="assets/icons/ticket.svg" class="pt-spin-slow" alt="" />
+      <p>Fetching your booking&hellip;</p>
+    </div>
+
+    <div class="pt-empty pt-card" *ngIf="!loading && errorMessage">
+      <p>{{ errorMessage }}</p>
+      <a routerLink="/" class="pt-btn pt-btn-outline">Back to Home</a>
+    </div>
+
+    <div class="pt-confirm__wrap" *ngIf="booking as b">
+      <div class="pt-confirm__badge reveal reveal-zoom">
+        <img src="assets/icons/check.svg" alt="" class="pt-pulse-glow" />
+        <h1>Booking Confirmed!</h1>
+        <p>A confirmation has been sent to <strong>{{ b.email }}</strong></p>
+      </div>
+
+      <div class="pt-card pt-ticket reveal">
+        <div class="pt-ticket__top">
+          <div class="pt-ticket__brand">
+            <img src="assets/logo.svg" alt="" />
+            <span>PackUp Travelers</span>
+          </div>
+          <div class="pt-ticket__pnr">
+            <span>PNR</span>
+            <strong>{{ b.pnr }}</strong>
+          </div>
+        </div>
+
+        <div class="pt-ticket__route">
+          <div class="pt-ticket__mode">
+            <img [src]="'assets/icons/' + (b.mode | lowercase) + '.svg'" alt="" />
+            <span>{{ b.operatorName }}</span>
+          </div>
+          <div class="pt-ticket__cities">
+            <div>
+              <strong>{{ b.source }}</strong>
+              <span>{{ b.departureTime }}</span>
+            </div>
+            <div class="pt-ticket__arrow">
+              <span class="pt-ticket__dots"></span>
+              &#9992;
+              <span class="pt-ticket__dots"></span>
+            </div>
+            <div>
+              <strong>{{ b.destination }}</strong>
+              <span>{{ b.arrivalTime }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-ticket__perforation" aria-hidden="true"></div>
+
+        <div class="pt-ticket__details">
+          <div>
+            <span>Passenger</span>
+            <strong>{{ b.passengerName }}</strong>
+          </div>
+          <div>
+            <span>Travel date</span>
+            <strong>{{ b.travelDate | date:'d MMM y' }}</strong>
+          </div>
+          <div>
+            <span>Tickets</span>
+            <strong>{{ b.numberOfTickets }}</strong>
+          </div>
+          <div>
+            <span>Status</span>
+            <strong class="pt-status">{{ b.status }}</strong>
+          </div>
+          <div>
+            <span>Contact</span>
+            <strong>{{ b.phone }}</strong>
+          </div>
+          <div>
+            <span>Total paid</span>
+            <strong>₹{{ b.totalFare | number:'1.2-2' }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-confirm__actions reveal">
+        <button type="button" class="pt-btn pt-btn-outline" (click)="print()">Print / Save Ticket</button>
+        <a routerLink="/" class="pt-btn pt-btn-primary">Book Another Trip</a>
+      </div>
+    </div>
+
+  </div>
+</section>

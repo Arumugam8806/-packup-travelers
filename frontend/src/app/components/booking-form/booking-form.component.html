@@ -1,0 +1,125 @@
+<section class="pt-booking-hero">
+  <div class="pt-container">
+    <h1 class="reveal">Confirm your journey</h1>
+    <p class="reveal">Review the trip, add traveler details, and lock in your fare.</p>
+  </div>
+</section>
+
+<section class="pt-section pt-booking">
+  <div class="pt-container">
+
+    <div class="pt-loading" *ngIf="loadingTrip">
+      <img src="assets/icons/ticket.svg" class="pt-spin-slow" alt="" />
+      <p>Loading trip details&hellip;</p>
+    </div>
+
+    <div class="pt-empty pt-card" *ngIf="!loadingTrip && !journey">
+      <p>We couldn't find that trip. Please head back and search again.</p>
+      <a routerLink="/" class="pt-btn pt-btn-outline">Back to Home</a>
+    </div>
+
+    <div class="pt-booking__grid" *ngIf="journey as j">
+
+      <!-- TRIP SUMMARY -->
+      <div class="pt-card pt-trip-summary reveal reveal-left">
+        <div class="pt-trip-summary__head">
+          <img [src]="'assets/icons/' + (j.trip.mode | lowercase) + '.svg'" alt="" />
+          <div>
+            <strong>{{ j.trip.operatorName }}</strong>
+            <span>{{ j.trip.vehicleNumber }} &middot; {{ j.trip.travelClass }}</span>
+          </div>
+        </div>
+
+        <div class="pt-trip-summary__route">
+          <div>
+            <strong>{{ j.trip.departureTime }}</strong>
+            <span>{{ j.trip.source }}</span>
+          </div>
+          <div class="pt-trip-summary__line">
+            <small>{{ j.trip.duration }}</small>
+          </div>
+          <div>
+            <strong>{{ j.trip.arrivalTime }}</strong>
+            <span>{{ j.trip.destination }}</span>
+          </div>
+        </div>
+
+        <div class="pt-trip-summary__row">
+          <img src="assets/icons/calendar.svg" alt="" />
+          <span>{{ j.travelDate | date:'EEEE, d MMM y' }}</span>
+        </div>
+        <div class="pt-trip-summary__row">
+          <img src="assets/icons/seat.svg" alt="" />
+          <span>{{ j.trip.availableSeats }} seats currently available</span>
+        </div>
+        <div class="pt-trip-summary__row">
+          <img src="assets/icons/star.svg" alt="" />
+          <span>{{ j.trip.rating }} / 5 rating</span>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <form class="pt-card pt-booking-form reveal reveal-right" [formGroup]="form" (ngSubmit)="submit()">
+        <h2>Traveler details</h2>
+
+        <div class="pt-field">
+          <label for="passengerName">Full name</label>
+          <input id="passengerName" type="text" formControlName="passengerName" placeholder="As per ID proof" />
+          <span class="pt-error" *ngIf="form.get('passengerName')?.touched && form.get('passengerName')?.invalid">
+            Please enter the traveler's full name.
+          </span>
+        </div>
+
+        <div class="pt-field">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+          <span class="pt-error" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+            Please enter a valid email address.
+          </span>
+        </div>
+
+        <div class="pt-field">
+          <label for="phone">Mobile number</label>
+          <input id="phone" type="tel" formControlName="phone" placeholder="10-digit mobile number" maxlength="10" />
+          <span class="pt-error" *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid">
+            Please enter a valid 10-digit mobile number.
+          </span>
+        </div>
+
+        <div class="pt-field">
+          <label>Number of tickets</label>
+          <div class="pt-stepper__control">
+            <button type="button" (click)="changeTickets(-1)">−</button>
+            <span>{{ tickets }}</span>
+            <button type="button" (click)="changeTickets(1)">+</button>
+          </div>
+        </div>
+
+        <!-- FARE SUMMARY -->
+        <div class="pt-fare">
+          <h3>Fare summary</h3>
+          <div class="pt-fare__row">
+            <span>Base fare &times; {{ tickets }}</span>
+            <span>₹{{ subTotal | number:'1.2-2' }}</span>
+          </div>
+          <div class="pt-fare__row">
+            <span>Taxes &amp; fees (5%)</span>
+            <span>₹{{ tax | number:'1.2-2' }}</span>
+          </div>
+          <div class="pt-fare__row pt-fare__row--total">
+            <span>Total payable</span>
+            <span>₹{{ total | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <p class="pt-error" *ngIf="submitError">{{ submitError }}</p>
+
+        <button type="submit" class="pt-btn pt-btn-primary pt-booking-form__submit" [disabled]="submitting">
+          <img src="assets/icons/check.svg" alt="" class="pt-icon" />
+          {{ submitting ? 'Confirming…' : 'Confirm Booking' }}
+        </button>
+      </form>
+
+    </div>
+  </div>
+</section>

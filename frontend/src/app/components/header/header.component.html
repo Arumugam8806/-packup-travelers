@@ -1,0 +1,23 @@
+<header class="pt-header" [class.pt-header--scrolled]="isScrolled">
+  <div class="pt-container pt-header__inner">
+    <a routerLink="/" class="pt-brand" (click)="closeMenu()">
+      <img src="assets/logo.svg" alt="PackUp Travelers logo" class="pt-brand__logo pt-float" style="--rot:-3deg" />
+      <span class="pt-brand__text">
+        <strong>PackUp</strong>
+        <em>Travelers</em>
+      </span>
+    </a>
+
+    <nav class="pt-nav" [class.pt-nav--open]="menuOpen">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="closeMenu()">Home</a>
+      <a routerLink="/search" [queryParams]="{mode:'TRAIN'}" (click)="closeMenu()">Trains</a>
+      <a routerLink="/search" [queryParams]="{mode:'BUS'}" (click)="closeMenu()">Buses</a>
+      <a routerLink="/search" [queryParams]="{mode:'FLIGHT'}" (click)="closeMenu()">Flights</a>
+      <a routerLink="/" fragment="why-us" (click)="closeMenu()">Why Us</a>
+    </nav>
+
+    <button class="pt-menu-toggle" (click)="toggleMenu()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>

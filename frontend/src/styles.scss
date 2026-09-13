@@ -1,0 +1,290 @@
+/* =========================================================
+   PackUp Travelers — Global Theme
+   Brown & gold travel palette, shared animations & utilities
+   ========================================================= */
+
+:root {
+  /* Brown palette */
+  --pt-brown-950: #1f140f;
+  --pt-brown-900: #2a1a15;
+  --pt-brown-800: #3e2723;
+  --pt-brown-700: #5d4037;
+  --pt-brown-600: #6d4c41;
+  --pt-brown-500: #8d6e63;
+  --pt-brown-400: #a1887f;
+  --pt-brown-300: #bcaaa4;
+  --pt-brown-200: #d7ccc8;
+  --pt-brown-100: #efebe9;
+  --pt-cream: #fbf3e7;
+
+  --pt-gold: #c9a05a;
+  --pt-gold-light: #e8c078;
+  --pt-gold-dark: #a67c3d;
+
+  --pt-success: #4a7a4a;
+  --pt-danger: #b04a3f;
+
+  --pt-shadow: 0 12px 30px rgba(42, 26, 21, 0.25);
+  --pt-shadow-soft: 0 6px 16px rgba(42, 26, 21, 0.15);
+  --pt-radius: 16px;
+
+  --pt-font-heading: 'Playfair Display', 'Georgia', serif;
+  --pt-font-body: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--pt-font-body);
+  color: var(--pt-brown-900);
+  background: var(--pt-cream);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--pt-font-heading);
+  color: var(--pt-brown-900);
+  margin: 0 0 0.5rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--pt-font-body);
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--pt-brown-100);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--pt-brown-400);
+  border-radius: 10px;
+}
+
+/* ---------- shared layout helpers ---------- */
+.pt-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.pt-section {
+  padding: 80px 0;
+}
+
+.pt-eyebrow {
+  display: inline-block;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: var(--pt-gold-dark);
+  background: var(--pt-brown-100);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.pt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-weight: 600;
+  font-size: 0.98rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.pt-btn-primary {
+  background: linear-gradient(135deg, var(--pt-gold-light), var(--pt-gold-dark));
+  color: var(--pt-brown-950);
+  box-shadow: var(--pt-shadow-soft);
+}
+.pt-btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--pt-shadow);
+}
+.pt-btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pt-btn-outline {
+  background: transparent;
+  border: 2px solid var(--pt-brown-700);
+  color: var(--pt-brown-700);
+}
+.pt-btn-outline:hover {
+  background: var(--pt-brown-700);
+  color: var(--pt-cream);
+  transform: translateY(-2px);
+}
+
+.pt-card {
+  background: #fff;
+  border-radius: var(--pt-radius);
+  box-shadow: var(--pt-shadow-soft);
+  border: 1px solid var(--pt-brown-100);
+}
+
+.pt-icon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  color: inherit;
+}
+
+/* ---------- scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(.2,.7,.3,1), transform 0.8s cubic-bezier(.2,.7,.3,1);
+  will-change: opacity, transform;
+}
+.reveal.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  transform: translateX(-60px);
+}
+.reveal-left.reveal-visible {
+  transform: translateX(0);
+}
+.reveal-right {
+  transform: translateX(60px);
+}
+.reveal-right.reveal-visible {
+  transform: translateX(0);
+}
+.reveal-zoom {
+  transform: scale(0.85);
+}
+.reveal-zoom.reveal-visible {
+  transform: scale(1);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.25s; }
+.reveal-delay-3 { transition-delay: 0.4s; }
+
+/* ---------- 3D tilt card ---------- */
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.tilt-card:hover {
+  transform: rotateX(4deg) rotateY(-6deg) translateY(-6px);
+  box-shadow: var(--pt-shadow);
+}
+
+/* ---------- floating / parallax vehicle animations ---------- */
+@keyframes pt-float {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50% { transform: translateY(-18px) rotate(var(--rot, 0deg)); }
+}
+.pt-float {
+  animation: pt-float 5s ease-in-out infinite;
+}
+
+@keyframes pt-drift {
+  0% { transform: translateX(-10%); }
+  100% { transform: translateX(110%); }
+}
+.pt-drift {
+  animation: pt-drift 18s linear infinite;
+}
+
+@keyframes pt-chug {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
+.pt-chug {
+  animation: pt-chug 0.6s ease-in-out infinite;
+}
+
+@keyframes pt-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.pt-spin-slow {
+  animation: pt-spin-slow 30s linear infinite;
+}
+
+@keyframes pt-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 160, 90, 0.5); }
+  50% { box-shadow: 0 0 0 14px rgba(201, 160, 90, 0); }
+}
+.pt-pulse-glow {
+  animation: pt-pulse-glow 2.2s ease-out infinite;
+}
+
+@keyframes pt-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.pt-fade-in {
+  animation: pt-fade-in 0.6s ease both;
+}
+
+@keyframes pt-dash {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ---------- form fields ---------- */
+.pt-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pt-field label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--pt-brown-700);
+}
+.pt-field input,
+.pt-field select {
+  border: 2px solid var(--pt-brown-200);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: var(--pt-font-body);
+  font-size: 0.95rem;
+  background: #fff;
+  color: var(--pt-brown-900);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.pt-field input:focus,
+.pt-field select:focus {
+  outline: none;
+  border-color: var(--pt-gold);
+  box-shadow: 0 0 0 4px rgba(201, 160, 90, 0.2);
+}
+.pt-field .pt-error {
+  color: var(--pt-danger);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 720px) {
+  .pt-section { padding: 52px 0; }
+}

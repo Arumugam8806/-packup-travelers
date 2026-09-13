@@ -1,0 +1,265 @@
+<section class="pt-results-hero">
+  <div class="pt-container">
+    <div class="pt-results-summary reveal reveal-visible">
+      <div class="pt-results-route">
+        <img [src]="modeIcon[mode]" alt="" />
+
+        <div>
+          <h1>
+            {{ source || 'Anywhere' }}
+            <span>→</span>
+            {{ destination || 'Anywhere' }}
+          </h1>
+
+          <p>
+            {{ travelDate | date:'EEEE, d MMM y' }}
+            &middot;
+            {{ passengers }}
+            passenger{{ passengers > 1 ? 's' : '' }}
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-mode-switch">
+        <button
+          type="button"
+          [class.active]="mode === 'TRAIN'"
+          (click)="changeMode('TRAIN')"
+        >
+          <img src="assets/icons/train.svg" alt="" />
+          Train
+        </button>
+
+        <button
+          type="button"
+          [class.active]="mode === 'BUS'"
+          (click)="changeMode('BUS')"
+        >
+          <img src="assets/icons/bus.svg" alt="" />
+          Bus
+        </button>
+
+        <button
+          type="button"
+          [class.active]="mode === 'FLIGHT'"
+          (click)="changeMode('FLIGHT')"
+        >
+          <img src="assets/icons/flight.svg" alt="" />
+          Flight
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="pt-section pt-results">
+  <div class="pt-container">
+
+    <!-- SORT BAR -->
+    <div
+      class="pt-sort-bar reveal reveal-visible"
+      *ngIf="trips.length"
+    >
+      <span>Sort by</span>
+
+      <button
+        type="button"
+        [class.active]="sortKey === 'departure'"
+        (click)="setSort('departure')"
+      >
+        Departure
+      </button>
+
+      <button
+        type="button"
+        [class.active]="sortKey === 'price'"
+        (click)="setSort('price')"
+      >
+        Price
+      </button>
+
+      <button
+        type="button"
+        [class.active]="sortKey === 'rating'"
+        (click)="setSort('rating')"
+      >
+        Rating
+      </button>
+    </div>
+
+
+    <!-- LOADING -->
+    <div
+      class="pt-loading"
+      *ngIf="loading"
+    >
+      <img
+        [src]="modeIcon[mode]"
+        class="pt-loading__icon pt-spin-slow"
+        alt=""
+      />
+
+      <p>
+        Finding the best
+        {{ mode.toLowerCase() }}s
+        for your route&hellip;
+      </p>
+    </div>
+
+
+    <!-- ERROR / EMPTY -->
+    <div
+      class="pt-empty pt-card reveal reveal-visible"
+      *ngIf="!loading && errorMessage"
+    >
+      <img
+        src="assets/icons/ticket.svg"
+        alt=""
+      />
+
+      <p>
+        {{ errorMessage }}
+      </p>
+    </div>
+
+
+    <!-- TRIP RESULTS -->
+    <div
+      class="pt-trip-list"
+      *ngIf="!loading && trips.length"
+    >
+
+      <div
+        class="pt-card pt-trip tilt-card reveal reveal-visible"
+        *ngFor="let trip of trips; let i = index"
+        [style.animation-delay]="(i * 0.1) + 's'"
+      >
+
+        <!-- OPERATOR -->
+        <div class="pt-trip__operator">
+
+          <img
+            [src]="modeIcon[trip.mode]"
+            alt=""
+          />
+
+          <div>
+            <strong>
+              {{ trip.operatorName }}
+            </strong>
+
+            <span>
+              {{ trip.vehicleNumber }}
+              &middot;
+              {{ trip.travelClass }}
+            </span>
+          </div>
+
+        </div>
+
+
+        <!-- TIMING -->
+        <div class="pt-trip__timing">
+
+          <div class="pt-trip__time">
+
+            <strong>
+              {{ trip.departureTime }}
+            </strong>
+
+            <span>
+              {{ trip.source }}
+            </span>
+
+          </div>
+
+
+          <div class="pt-trip__duration">
+
+            <span class="pt-trip__line"></span>
+
+            <small>
+              {{ trip.duration }}
+            </small>
+
+            <span class="pt-trip__line"></span>
+
+          </div>
+
+
+          <div class="pt-trip__time">
+
+            <strong>
+              {{ trip.arrivalTime }}
+            </strong>
+
+            <span>
+              {{ trip.destination }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- RATING + SEATS -->
+        <div class="pt-trip__meta">
+
+          <div class="pt-trip__rating">
+
+            <img
+              src="assets/icons/star.svg"
+              alt=""
+            />
+
+            {{ trip.rating }}
+
+          </div>
+
+
+          <div
+            class="pt-trip__seats"
+            [class.low]="trip.availableSeats < 10"
+          >
+
+            {{ trip.availableSeats }}
+            seats left
+
+          </div>
+
+        </div>
+
+
+        <!-- PRICE + SELECT -->
+        <div class="pt-trip__action">
+
+          <div class="pt-trip__price">
+
+            <strong>
+              ₹{{ trip.price | number:'1.0-0' }}
+            </strong>
+
+            <span>
+              per ticket
+            </span>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="pt-btn pt-btn-primary"
+            (click)="selectTrip(trip)"
+          >
+            Select
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>

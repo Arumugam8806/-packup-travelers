@@ -1,0 +1,547 @@
+<!-- ============ HERO ============ -->
+<section class="pt-hero">
+  <div class="pt-hero__sky" aria-hidden="true">
+    <img
+      src="assets/icons/flight.svg"
+      class="pt-hero__plane pt-drift"
+      alt=""
+    />
+
+    <div class="pt-hero__cloud c1"></div>
+    <div class="pt-hero__cloud c2"></div>
+    <div class="pt-hero__cloud c3"></div>
+  </div>
+
+  <div class="pt-container pt-hero__content">
+
+    <!-- HERO TEXT -->
+    <div class="pt-hero__copy reveal reveal-left reveal-visible">
+      <span class="pt-eyebrow">
+        Trains • Buses • Flights — One Window
+      </span>
+
+      <h1>
+        Pack up your journey<br />
+        with <span>PackUp Travelers</span>
+      </h1>
+
+      <p>
+        Search, compare and book train, bus and flight tickets
+        in one seamless flow — real fares, live seats,
+        instant confirmation.
+      </p>
+    </div>
+
+
+    <!-- SEARCH WIDGET -->
+    <div
+      class="pt-search reveal reveal-zoom reveal-delay-1 reveal-visible tilt-card"
+    >
+
+      <!-- TRANSPORT TABS -->
+      <div class="pt-search__tabs">
+
+        <button
+          *ngFor="let m of modes"
+          type="button"
+          class="pt-search__tab"
+          [class.active]="mode === m.key"
+          (click)="selectMode(m.key)"
+        >
+          <img
+            [src]="m.icon"
+            [alt]="m.label"
+          />
+
+          <span>
+            {{ m.label }}
+          </span>
+        </button>
+
+      </div>
+
+
+      <!-- SEARCH FORM -->
+      <form
+        class="pt-search__form"
+        (ngSubmit)="search()"
+      >
+
+        <!-- FROM / TO -->
+        <div class="pt-search__row">
+
+          <!-- FROM -->
+          <div class="pt-field pt-field--icon">
+
+            <label for="source">
+              From
+            </label>
+
+            <img
+              src="assets/icons/location.svg"
+              class="pt-field__icon"
+              alt=""
+            />
+
+            <input
+              id="source"
+              name="source"
+              type="text"
+              placeholder="City of origin"
+              [(ngModel)]="source"
+              autocomplete="off"
+            />
+
+          </div>
+
+
+          <!-- SWAP -->
+          <button
+            type="button"
+            class="pt-swap"
+            (click)="swapLocations()"
+            aria-label="Swap source and destination"
+          >
+            <img
+              src="assets/icons/swap.svg"
+              alt=""
+            />
+          </button>
+
+
+          <!-- TO -->
+          <div class="pt-field pt-field--icon">
+
+            <label for="destination">
+              To
+            </label>
+
+            <img
+              src="assets/icons/location.svg"
+              class="pt-field__icon"
+              alt=""
+            />
+
+            <input
+              id="destination"
+              name="destination"
+              type="text"
+              placeholder="City of destination"
+              [(ngModel)]="destination"
+              autocomplete="off"
+            />
+
+          </div>
+
+        </div>
+
+
+        <!-- DATE / PASSENGERS -->
+        <div class="pt-search__row">
+
+          <!-- DATE -->
+          <div class="pt-field pt-field--icon">
+
+            <label for="date">
+              Travel date
+            </label>
+
+            <img
+              src="assets/icons/calendar.svg"
+              class="pt-field__icon"
+              alt=""
+            />
+
+            <input
+              id="date"
+              name="date"
+              type="date"
+              [min]="minDate"
+              [(ngModel)]="travelDate"
+            />
+
+          </div>
+
+
+          <!-- PASSENGERS -->
+          <div class="pt-field pt-stepper">
+
+            <label for="passenger-count">
+              Passengers
+            </label>
+
+            <div
+              class="pt-stepper__control"
+              id="passenger-count"
+            >
+
+              <button
+                type="button"
+                (click)="decrement()"
+                aria-label="Decrease passengers"
+              >
+                −
+              </button>
+
+              <span>
+                {{ passengers }}
+              </span>
+
+              <button
+                type="button"
+                (click)="increment()"
+                aria-label="Increase passengers"
+              >
+                +
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- FORM ERROR -->
+        <p
+          class="pt-error"
+          *ngIf="formError"
+        >
+          {{ formError }}
+        </p>
+
+
+        <!-- SEARCH BUTTON -->
+        <button
+          type="submit"
+          class="pt-btn pt-btn-primary pt-search__submit"
+        >
+          <img
+            src="assets/icons/ticket.svg"
+            alt=""
+            class="pt-icon"
+          />
+
+          Search {{ mode | titlecase }}s
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- HERO GROUND -->
+  <div
+    class="pt-hero__ground"
+    aria-hidden="true"
+  >
+
+    <div class="pt-hero__road"></div>
+
+    <img
+      src="assets/icons/train.svg"
+      class="pt-hero__train pt-chug"
+      alt=""
+    />
+
+    <img
+      src="assets/icons/bus.svg"
+      class="pt-hero__bus pt-chug"
+      alt=""
+    />
+
+  </div>
+
+</section>
+
+
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="pt-section pt-steps">
+
+  <div class="pt-container">
+
+    <!-- SECTION HEADING -->
+    <div class="pt-section__head reveal reveal-visible">
+
+      <span class="pt-eyebrow">
+        How it works
+      </span>
+
+      <h2>
+        Four simple steps to your next trip
+      </h2>
+
+    </div>
+
+
+    <!-- STEPS -->
+    <div class="pt-steps__grid">
+
+      <div
+        class="pt-step reveal reveal-visible reveal-delay-{{ i % 3 }}"
+        *ngFor="let step of steps; let i = index; let last = last"
+      >
+
+        <div class="pt-step__badge">
+          {{ i + 1 }}
+        </div>
+
+        <img
+          [src]="step.icon"
+          class="pt-step__icon"
+          [alt]="step.title"
+        />
+
+        <h3>
+          {{ step.title }}
+        </h3>
+
+        <p>
+          {{ step.text }}
+        </p>
+
+        <div
+          class="pt-step__connector"
+          *ngIf="!last"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ============ WHY US ============ -->
+<section
+  class="pt-section pt-features"
+  id="why-us"
+>
+
+  <div class="pt-container">
+
+    <!-- SECTION HEADING -->
+    <div class="pt-section__head reveal reveal-visible">
+
+      <span class="pt-eyebrow">
+        Why PackUp Travelers
+      </span>
+
+      <h2>
+        Built for travellers who hate juggling apps
+      </h2>
+
+    </div>
+
+
+    <!-- FEATURES -->
+    <div class="pt-features__grid">
+
+      <div
+        class="pt-card pt-feature tilt-card reveal reveal-visible reveal-delay-{{ i % 3 }}"
+        *ngFor="let f of features; let i = index"
+      >
+
+        <div class="pt-feature__icon-wrap pt-pulse-glow">
+
+          <img
+            [src]="f.icon"
+            [alt]="f.title"
+          />
+
+        </div>
+
+        <h3>
+          {{ f.title }}
+        </h3>
+
+        <p>
+          {{ f.text }}
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ============ POPULAR ROUTES ============ -->
+<section class="pt-section pt-routes">
+
+  <div class="pt-container">
+
+    <!-- SECTION HEADING -->
+    <div class="pt-section__head reveal reveal-visible">
+
+      <span class="pt-eyebrow">
+        Trending this week
+      </span>
+
+      <h2>
+        Popular routes across India
+      </h2>
+
+    </div>
+
+
+    <!-- ROUTES -->
+    <div class="pt-routes__grid">
+
+      <button
+        type="button"
+        class="pt-card pt-route tilt-card reveal reveal-visible reveal-delay-{{ i % 3 }}"
+        *ngFor="let r of popularRoutes; let i = index"
+        (click)="quickSearch(r)"
+      >
+
+        <div class="pt-route__mode">
+
+          <img
+            [src]="r.icon"
+            [alt]="r.from + ' to ' + r.to"
+          />
+
+        </div>
+
+
+        <div class="pt-route__cities">
+
+          <strong>
+            {{ r.from }}
+          </strong>
+
+          <span class="pt-route__arrow">
+            →
+          </span>
+
+          <strong>
+            {{ r.to }}
+          </strong>
+
+        </div>
+
+
+        <div class="pt-route__price">
+          from {{ r.price }}
+        </div>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="pt-section pt-testimonials">
+
+  <div class="pt-container">
+
+    <!-- SECTION HEADING -->
+    <div class="pt-section__head reveal reveal-visible">
+
+      <span class="pt-eyebrow">
+        Traveler stories
+      </span>
+
+      <h2>
+        Loved by commuters and wanderers alike
+      </h2>
+
+    </div>
+
+
+    <!-- TESTIMONIALS -->
+    <div class="pt-testimonials__grid">
+
+      <div
+        class="pt-card pt-testimonial reveal reveal-visible reveal-delay-{{ i % 3 }}"
+        *ngFor="let t of testimonials; let i = index"
+      >
+
+        <!-- STARS -->
+        <div class="pt-testimonial__stars">
+
+          <img
+            src="assets/icons/star.svg"
+            alt="Star"
+            *ngFor="let s of [].constructor(t.rating)"
+          />
+
+        </div>
+
+
+        <!-- QUOTE -->
+        <p class="pt-testimonial__quote">
+          &ldquo;{{ t.quote }}&rdquo;
+        </p>
+
+
+        <!-- AUTHOR -->
+        <div class="pt-testimonial__author">
+
+          <strong>
+            {{ t.name }}
+          </strong>
+
+          <span>
+            {{ t.trip }}
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ============ CTA ============ -->
+<section class="pt-cta">
+
+  <div
+    class="pt-container pt-cta__inner reveal reveal-zoom reveal-visible"
+  >
+
+    <div>
+
+      <h2>
+        Ready to pack up and go?
+      </h2>
+
+      <p>
+        Search trains, buses and flights side by side —
+        book the one that fits your journey best.
+      </p>
+
+    </div>
+
+
+    <a
+      routerLink="/search"
+      [queryParams]="{mode:'TRAIN'}"
+      class="pt-btn pt-btn-primary"
+    >
+      Start Booking
+    </a>
+
+  </div>
+
+</section>
